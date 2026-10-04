@@ -83,3 +83,19 @@ The Maven Wrapper removes the assumption that the developer (or CI/CD runner) ha
 pre-installed and properly configured in the system's `PATH`. It guarantees that any machine or pipeline uses
 the exact same Maven version specified in `.mvn/wrapper/maven-wrapper.properties`, eliminating build inconsistencies
 caused by version mismatches between environments.
+
+## Step 6 - CI Verification via GitHub Actions
+Workflow file: `.github/workflows/build.yml`
+Status: Workflow executed and passed successfully on GitHub Actions.
+Artifact generated: `fleetcheck-build`
+Repository URL: https://github.com/TiagoGuerra10/Fleetcheck
+
+## Step 7 - Software Bill of Materials (SBOM)
+Execution command: `.\mvnw.cmd clean verify`
+Generated artifact: `target/bom.json`
+
+**Evidence 7: Why does the SBOM contain components that you did not explicitly type in the original dependencies section?**
+The SBOM contains these additional components because modern package and build managers resolve dependencies transitively. 
+When a direct dependency (such as `jackson-databind`) is declared, it brings along its own required dependencies (`jackson-core` and `jackson-annotations`),
+as well as test framework components (`opentest4j`, JUnit Platform engines, etc.). The SBOM captures the entire real software supply chain and runtime/compile dependency graph,
+ensuring full visibility into third-party code for security audits and vulnerability scanning (CVE tracking).
